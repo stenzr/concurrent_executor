@@ -5,12 +5,12 @@ with open('requirements.txt') as f:
     install_requires = f.read().strip().split('\n')
 
 setup(
-    name="concurrent_executor",
+    name="spawn_parallel_instances",
     version="1.0.0",
     description="A package to run multiple instance of the same script.",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url="https://github.com/stenzr/concurrent_executor",
+    url="https://github.com/stenzr/spawn_parallel_instances",
     author="Rohit Kumar",
     author_email="rkrohitkr01@gmail.com",
     license="MIT",
@@ -18,7 +18,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'concurrent_executor=concurrent_executor.__main__:main',
+            'spawn_parallel_instances=spawn_parallel_instances.__main__:main',
         ],
     },
     install_requires=install_requires,

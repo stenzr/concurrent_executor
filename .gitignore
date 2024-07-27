@@ -4,3 +4,8 @@ concurrent_executor_venv/
 concurrent_executor.egg-info/
 concurrent_executor/__pycache__/__init__.cpython-312.pyc
 concurrent_executor/__pycache__
+spawn_parallel_instances.egg-info/
+concurrent_executor_venv/
+spawn_parallel_instances.egg-info/
+spawn_parallel_instances/__pycache__/__init__.cpython-312.pyc
+spawn_parallel_instances/__pycache__
