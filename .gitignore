@@ -1,0 +1,4 @@
+build/
+dist/
+concurrent_executor_venv/
+concurrent_executor.egg-info/
