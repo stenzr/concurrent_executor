@@ -3,3 +3,4 @@ dist/
 concurrent_executor_venv/
 concurrent_executor.egg-info/
 concurrent_executor/__pycache__/__init__.cpython-312.pyc
+concurrent_executor/__pycache__
