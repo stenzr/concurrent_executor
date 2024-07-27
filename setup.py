@@ -18,7 +18,7 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'concurrent_executor=concurrent_scripts.__main__:main',
+            'concurrent_executor=concurrent_executor.__main__:main',
         ],
     },
     install_requires=install_requires,
