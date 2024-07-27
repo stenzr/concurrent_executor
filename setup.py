@@ -10,7 +10,7 @@ setup(
     description="A package to run multiple instance of the same script.",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url="",
+    url="https://github.com/stenzr/concurrent_executor",
     author="Rohit Kumar",
     author_email="rkrohitkr01@gmail.com",
     license="MIT",
