@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
     install_requires = f.read().strip().split('\n')
 
 setup(
-    name="concurrent-scripts",
+    name="concurrent_executor",
     version="0.1.0",
     description="A package to run multiple instance of the same script.",
     long_description=open('README.md').read(),
