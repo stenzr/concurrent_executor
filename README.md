@@ -1,5 +1,7 @@
 # Spawn Parallel Instances
 
+[![PyPI](https://img.shields.io/pypi/v/spawn-parallel-instances)](https://pypi.org/project/spawn-parallel-instances/)
+
 Spawn Parallel Instances is a versatile tool designed to facilitate running multiple instances of various types of scripts with customizable environment variables and arguments. By leveraging its command-line options, you can efficiently manage and execute scripts in parallel, making it an essential tool for developers and system administrators.
 
 ## Features
