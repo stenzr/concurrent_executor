@@ -1,12 +1,12 @@
 # Spawn Parallel Instances
 
-Spawn Parallel Instances is a Python package that allows you to run parrallel instances of the same script. It supports loading environment variables from a YAML file and allows specifying the Python interpreter to use.
+Spawn Parallel Instances is a Python package that allows you to run parrallel instances of the same script (Python or Node.js). It supports loading environment variables from a YAML file and allows specifying the interpreter (["python", "nodejs"]) to use.
 
 ## Features
 
 - Run multiple instances of a script concurrently.
 - Load environment variables from a YAML file.
-- Specify the Python interpreter to use.
+- Specify the interpreter (python or nodejs) to use.
 - Log output for each process with unique identifiers.
 
 ## Installation
@@ -35,22 +35,50 @@ python -m pip install .
 To use the concurrent executor, run the following command:
 
 ```sh
-spawn_parallel_instances <script_name> --processes <num_processes> --env_file <env_file> --python_interpreter <interpreter>
+spawn_parallel_instances <script_name> --processes <num_processes> --env_file <env_file> --interpreter <interpreter> --script-type <script_type>
 ```
 
 ### Arguments
 
-- <script_name>: The Python script to run (positional argument).
-- --processes: Number of processes to spawn (default: 1).
-- --env_file: YAML file containing environment variables (default: env_variables.yml).
-- --python_interpreter: Python interpreter to use (default: python3.11).
+## Command-Line Arguments
 
+The `ScriptRunner` accepts the following command-line arguments:
+
+1. **script** (positional, required):
+   - **Description:** The script to run (Python or Node.js).
+   - **Type:** `str`
+   - **Example:** `my_script.py` or `my_script.js`
+
+2. **--processes** (optional):
+   - **Description:** Number of processes to spawn.
+   - **Type:** `int`
+   - **Default:** `1`
+   - **Example:** `--processes 4`
+
+3. **--env-file** (optional):
+   - **Description:** YAML file containing environment variables.
+   - **Type:** `str`
+   - **Default:** `env_variables.yml`
+   - **Example:** `--env-file config.yml`
+
+4. **--script-type** (optional):
+   - **Description:** Script type (either `python` or `nodejs`).
+   - **Type:** `str`
+   - **Choices:** `["python", "nodejs"]`
+   - **Default:** `python`
+   - **Example:** `--script-type nodejs`
+
+5. **--interpreter** (optional):
+   - **Description:** Interpreter to use (Python interpreter or node).
+   - **Type:** `str`
+   - **Default:** If not specified, defaults to `python3.11` for Python scripts or `node` for Node.js scripts.
+   - **Example:** `--interpreter python3.8` or `--interpreter node`
 
 ### Example
 Assuming you have a script called [`tests/sample/test_script.py`](tests/sample/test_script.py) and an environment file [`tests/sample/config.yml`](tests/sample/config.yml), you can run:
 
 ```sh
-spawn_parallel_instances tests/sample/test_script.py --processes 3 --env_file tests/sample/config.yml --python_interpreter python3.9
+spawn_parallel_instances tests/sample/test_script.py --processes 3 --env_file tests/sample/config.yml --script-type python --interpreter python3.9
 ```
 
 ### Environment Variables

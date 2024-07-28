@@ -7,7 +7,7 @@ with open('requirements.txt') as f:
 setup(
     name="spawn_parallel_instances",
     version="1.0.3",
-    description="A package to run multiple instance of the same script.",
+    description="A package to run multiple instances of the same script.",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url="https://github.com/stenzr/spawn_parallel_instances",

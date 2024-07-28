@@ -12,7 +12,8 @@ class ScriptRunner:
         self.args = self.parse_arguments()
         self.script_name = self.args.script
         self.number_of_processes = self.args.processes
-        self.python_interpreter = self.args.python_interpreter
+        self.script_type = self.args.script_type
+        self.interpreter = self.get_interpreter()
 
         # Get the absolute path of the folder containing the script
         self.script_folder = os.path.dirname(os.path.abspath(__file__)) + "/"
@@ -28,10 +29,10 @@ class ScriptRunner:
         # Define and parse command-line arguments
         parser = argparse.ArgumentParser()
 
-        # Positional argument for the Python script to run
+        # Positional argument for the script to run
         parser.add_argument(
             "script",
-            help="Python script to run",
+            help="Script to run (Python or Node.js)",
             type=str
         )
 
@@ -51,20 +52,33 @@ class ScriptRunner:
             default="env_variables.yml"
         )
 
-        # Optional argument to specify the Python interpreter to use
+        # Optional argument to specify the script type (python or nodejs)
         parser.add_argument(
-            "--python-interpreter",
-            help="Python interpreter to use",
+            "--script-type",
+            help="Script type (python or nodejs)",
             type=str,
-            default="python3.11"
+            choices=["python", "nodejs"],
+            default="python"
+        )
+
+        # Optional argument to specify the interpreter to use (Python interpreter or node)
+        parser.add_argument(
+            "--interpreter",
+            help="Interpreter to use (Python interpreter or node)",
+            type=str,
+            default=""
         )
 
         return parser.parse_args()
     
+    def get_interpreter(self):
+        if self.args.interpreter:
+            return self.args.interpreter
+        return "python3.11" if self.script_type == "python" else "node"
+
     def get_log_file_name(self):
         # Extract the log file name from the script name
-        log_file = self.script_name.split('/')[-1]
-        log_file = log_file.split('.')[0]
+        log_file = os.path.basename(self.script_name).split('.')[0]
         return log_file
 
     def read_env_variables(self):
@@ -83,26 +97,26 @@ class ScriptRunner:
             traceback.print_tb(e.__traceback__)
             return {}  # Return an empty dictionary in case of an error
         
-    def is_python_interpreter_available(self):
+    def is_interpreter_available(self):
         try:
-            # Attempt to run the Python interpreter with the `--version` flag to check its availability
-            result = subprocess.run([self.python_interpreter, '--version'], capture_output=True, text=True, check=True)
-            print(f"{self.python_interpreter} is available.")
+            # Attempt to run the interpreter with the `--version` flag to check its availability
+            result = subprocess.run([self.interpreter, '--version'], capture_output=True, text=True, check=True)
+            print(f"{self.interpreter} is available.")
             return True
         except subprocess.CalledProcessError as e:
-            print(f"Error checking Python interpreter: {e}")
+            print(f"Error checking interpreter: {e}")
             return False
         except FileNotFoundError:
-            print(f"Python interpreter {self.python_interpreter} not found.")
+            print(f"Interpreter {self.interpreter} not found.")
             return False
 
     def construct_command(self, env_list, instance_number):
-        # Check if the Python interpreter is available
-        if not self.is_python_interpreter_available():
-            raise RuntimeError(f"Python interpreter {self.python_interpreter} is not available.")
+        # Check if the interpreter is available
+        if not self.is_interpreter_available():
+            raise RuntimeError(f"Interpreter {self.interpreter} is not available.")
         
         # Construct the command to be executed for each process
-        base_command = f'{self.python_interpreter} -u {self.script_name}'
+        base_command = f'{self.interpreter} -u {self.script_name}' if self.script_type == "python" else f'{self.interpreter} {self.script_name}'
         command = f'{env_list} {base_command} >> {self.log_file}_{instance_number}_{uuid.uuid4().hex[:6]}.log 2>&1'
         return command
 
