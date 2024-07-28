@@ -9,6 +9,11 @@ import json
 
 class ScriptRunner:
     def __init__(self):
+        """
+        Initializes the ScriptRunner class by parsing command-line arguments
+        and setting up the script details, environment file, and log file.
+        """
+        
         # Parse command-line arguments
         self.args = self.parse_arguments()
         self.script_name = self.args.script
@@ -30,6 +35,13 @@ class ScriptRunner:
         self.child_process_status_map = {}
 
     def parse_arguments(self):
+        """
+        Defines and parses command-line arguments.
+
+        Returns:
+            argparse.Namespace: Parsed command-line arguments.
+        """
+        
         # Define and parse command-line arguments
         parser = argparse.ArgumentParser()
 
@@ -92,6 +104,13 @@ class ScriptRunner:
         return parser.parse_args()
     
     def get_interpreter(self):
+        """
+        Determines the appropriate interpreter based on the script type.
+
+        Returns:
+            str: The interpreter to use.
+        """
+        
         if self.args.interpreter:
             return self.args.interpreter
         if self.script_type == "python":
@@ -104,11 +123,25 @@ class ScriptRunner:
             raise ValueError(f"Unsupported script type: {self.script_type}")
 
     def get_log_file_name(self):
+        """
+        Generates the log file name based on the script name.
+
+        Returns:
+            str: The log file name.
+        """
+        
         # Extract the log file name from the script name
         log_file = os.path.basename(self.script_name).split('.')[0]
         return log_file
 
     def read_env_variables(self):
+        """
+        Reads environment variables from a YAML file.
+
+        Returns:
+            dict: A dictionary of environment variables.
+        """
+        
         if not os.path.isfile(self.env_file):
             print(f"Environment file {self.env_file} does not exist.")
             return {}  # Return an empty dictionary if the file does not exist
@@ -125,6 +158,13 @@ class ScriptRunner:
             return {}  # Return an empty dictionary in case of an error
         
     def is_interpreter_available(self):
+        """
+        Checks if the specified interpreter is available.
+
+        Returns:
+            bool: True if the interpreter is available, False otherwise.
+        """
+        
         try:
             # Attempt to run the interpreter with the `--version` flag to check its availability
             result = subprocess.run(self.interpreter.split() + ['--version'], capture_output=True, text=True, check=True)
@@ -138,6 +178,13 @@ class ScriptRunner:
             return False
         
     def read_script_args(self):
+        """
+        Reads script arguments from a JSON file or directly from the command-line arguments.
+
+        Returns:
+            list: A list of script arguments for each process.
+        """
+        
         if self.script_args_file:
             if not os.path.isfile(self.script_args_file):
                 print(f"Script arguments file {self.script_args_file} does not exist.")
@@ -169,6 +216,18 @@ class ScriptRunner:
             return [""] * self.number_of_processes
 
     def construct_command(self, env_list, instance_number, script_args):
+        """
+        Constructs the command to be executed for each process.
+
+        Args:
+            env_list (str): Environment variables as a string.
+            instance_number (int): The instance number of the process.
+            script_args (list): List of script arguments for the process.
+
+        Returns:
+            str: The constructed command.
+        """
+        
         # Check if the interpreter is available
         if not self.is_interpreter_available():
             raise RuntimeError(f"Interpreter {self.interpreter} is not available.")
@@ -189,6 +248,14 @@ class ScriptRunner:
         return command
         
     def run_processes(self, env_list, script_args_list):
+        """
+        Spawns the specified number of processes and runs the script with the given arguments.
+
+        Args:
+            env_list (str): Environment variables as a string.
+            script_args_list (list): List of script arguments for each process.
+        """
+        
         chk_point1 = datetime.now()
         try:
             # Spawn the specified number of processes
@@ -212,6 +279,13 @@ class ScriptRunner:
         self.wait_for_processes(chk_point2)
 
     def wait_for_processes(self, chk_point2):
+        """
+        Waits for all child processes to finish.
+
+        Args:
+            chk_point2 (datetime): The checkpoint time after initiating processes.
+        """
+        
         # Wait for all child processes to finish
         print("waiting-for-child-processes-to-finish", len(self.child_processes), datetime.now())
         while not all(self.child_process_status_map.values()):
@@ -228,6 +302,11 @@ class ScriptRunner:
         print("all-child-processes-finished", "time-taken", (chk_point5 - chk_point2).total_seconds(), datetime.now())
     
     def run(self):
+        """
+        Main function to run the script runner. It reads environment variables and script arguments,
+        then runs the processes with the constructed commands.
+        """
+        
         print("script folder", self.script_folder)
         print("script", self.script_name, "processes", self.number_of_processes)
         
@@ -244,6 +323,10 @@ class ScriptRunner:
         self.run_processes(env_list, script_args_list)
 
 def main():
+    """
+    Main entry point of the script.
+    """
+    
     ScriptRunner().run()
 
     
