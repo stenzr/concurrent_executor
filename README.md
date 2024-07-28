@@ -47,7 +47,7 @@ spawn_parallel_instances <script_name> --processes <num_processes> --env_file <e
 
 
 ### Example
-Assuming you have a script called `tests/sample/test_script.py` and an environment file `tests/sample/config.yml`, you can run:
+Assuming you have a script called [`tests/sample/test_script.py`](tests/sample/test_script.py) and an environment file [`tests/sample/config.yml`](tests/sample/config.yml), you can run:
 
 ```sh
 spawn_parallel_instances tests/sample/test_script.py --processes 3 --env_file tests/sample/config.yml --python_interpreter python3.9
@@ -81,7 +81,7 @@ cd spawn_parallel_instances
 
 ```sh
 Copy code
-python3.12 -m venv venv
+python3.9 -m venv venv
 source venv/bin/activate
 ```
 
@@ -104,6 +104,6 @@ Contributions are welcome! Please follow these steps:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 
