@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name="spawn_parallel_instances",
-    version="1.0.0",
+    version="1.0.1",
     description="A package to run multiple instance of the same script.",
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
