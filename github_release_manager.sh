@@ -21,9 +21,10 @@ echo "Extracted version: ${VERSION}"
 echo "Tag name: ${TAG_NAME}"
 echo "Release name: ${RELEASE_NAME}"
 
-# Check if the tag already exists
+# Check if the tag exists locally
 if git rev-parse "${TAG_NAME}" >/dev/null 2>&1; then
-  echo "Tag ${TAG_NAME} already exists. Using the existing tag."
+  echo "Tag ${TAG_NAME} exists locally. Pushing to remote repository..."
+  git push origin "${TAG_NAME}" || handle_error "Failed to push Git tag to remote repository"
 else
   # Create a Git tag
   echo "Creating Git tag..."
@@ -33,6 +34,7 @@ else
   echo "Pushing Git tag to remote repository..."
   git push origin "${TAG_NAME}" || handle_error "Failed to push Git tag to remote repository"
 fi
+
 
 # Check if GitHub CLI is installed and install if necessary
 if ! command -v gh &> /dev/null; then
