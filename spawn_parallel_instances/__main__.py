@@ -61,7 +61,7 @@ class ScriptRunner:
             "--script-type",
             help="Script type (python or nodejs)",
             type=str,
-            choices=["python", "nodejs"],
+            choices=["python", "nodejs", "go"],
             default="python"
         )
 
