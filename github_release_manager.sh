@@ -21,13 +21,18 @@ echo "Extracted version: ${VERSION}"
 echo "Tag name: ${TAG_NAME}"
 echo "Release name: ${RELEASE_NAME}"
 
-# Create a Git tag
-echo "Creating Git tag..."
-git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}" || handle_error "Failed to create Git tag"
+# Check if the tag already exists
+if git rev-parse "${TAG_NAME}" >/dev/null 2>&1; then
+  echo "Tag ${TAG_NAME} already exists. Using the existing tag."
+else
+  # Create a Git tag
+  echo "Creating Git tag..."
+  git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}" || handle_error "Failed to create Git tag"
 
-# Push the tag to the remote repository
-echo "Pushing Git tag to remote repository..."
-git push origin "${TAG_NAME}" || handle_error "Failed to push Git tag to remote repository"
+  # Push the tag to the remote repository
+  echo "Pushing Git tag to remote repository..."
+  git push origin "${TAG_NAME}" || handle_error "Failed to push Git tag to remote repository"
+fi
 
 # Check if GitHub CLI is installed and install if necessary
 if ! command -v gh &> /dev/null; then
@@ -52,8 +57,14 @@ else
   echo "GitHub CLI (gh) is already installed."
 fi
 
-# Create a GitHub release
-echo "Creating GitHub release..."
-gh release create "${TAG_NAME}" --title "${RELEASE_NAME}" --notes "Published release ${TAG_NAME}." || handle_error "Failed to create GitHub release"
+# Check if the release already exists
+RELEASE_EXISTS=$(gh release view "${TAG_NAME}" --json name -q .name || echo "not found")
 
-echo "GitHub release ${RELEASE_NAME} created successfully."
+if [[ "${RELEASE_EXISTS}" == "not found" ]]; then
+  echo "Creating GitHub release..."
+  gh release create "${TAG_NAME}" --title "${RELEASE_NAME}" --notes "Published release ${TAG_NAME}." || handle_error "Failed to create GitHub release"
+else
+  echo "GitHub release ${RELEASE_NAME} already exists. Skipping creation."
+fi
+
+echo "GitHub release process completed successfully."
