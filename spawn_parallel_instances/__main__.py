@@ -162,7 +162,7 @@ class ScriptRunner:
                 return [""] * self.number_of_processes
             
         elif self.script_args:
-            script_args = self.script_args.split()
+            script_args = self.script_args.split(",")
             return [script_args] * self.number_of_processes
         
         else:
