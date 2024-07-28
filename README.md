@@ -1,6 +1,6 @@
 # Spawn Parallel Instances
 
-Spawn Parallel Instances is a Python package that allows you to run concurrent scripts with multiple consumers. It supports loading environment variables from a YAML file and allows specifying the Python interpreter to use.
+Spawn Parallel Instances is a Python package that allows you to run parrallel instances of the same script. It supports loading environment variables from a YAML file and allows specifying the Python interpreter to use.
 
 ## Features
 
@@ -58,8 +58,8 @@ spawn_parallel_instances tests/sample/test_script.py --processes 3 --env_file te
 Environment variables should be defined in a YAML file. For example:
 
 ```yaml
-    FOO: bar
-    BAZ: qux
+FOO: bar
+BAZ: qux
 ```
 
 The above YAML file can be used with the --env_file argument to set environment variables for the script.
