@@ -15,7 +15,7 @@ echo "Previous build artifacts removed."
 
 # Create source distribution and wheel
 echo "Creating source distribution and wheel..."
-python3.12 setup.py sdist bdist_wheel || handle_error "Creating source distribution and wheel"
+python3 setup.py sdist bdist_wheel || handle_error "Creating source distribution and wheel"
 echo "Source distribution and wheel created."
 
 # Upload to PyPI using twine
