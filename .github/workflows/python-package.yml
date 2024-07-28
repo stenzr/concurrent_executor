@@ -44,9 +44,7 @@ jobs:
           pip install setuptools wheel twine
 
       - name: Publish to PyPI
+        run: ./upload_to_pypi.sh
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-        run: |
-          python setup.py sdist bdist_wheel
-          twine upload --repository pypi --verbose dist/*
