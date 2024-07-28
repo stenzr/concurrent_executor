@@ -8,6 +8,14 @@ handle_error() {
 
 echo "Starting build and upload process..."
 
+# Check if the current branch is release
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "release" ]; then
+    echo "Current branch is not 'release'. Exiting..."
+    exit 0
+fi
+
+
 # Remove previous build artifacts
 echo "Removing previous build artifacts..."
 rm -rf dist build *.egg-info || handle_error "Removing previous build artifacts"

@@ -11,6 +11,13 @@ set -e
 
 echo "Updating Release on Github..."
 
+# Check if the current branch is release
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [ "$CURRENT_BRANCH" != "release" ]; then
+    echo "Current branch is not 'release'. Exiting..."
+    exit 0
+fi
+
 # Extract version from setup.py
 echo "Extracting version from setup.py..."
 VERSION=$(python setup.py --version) || handle_error "Failed to extract version from setup.py"
